@@ -278,7 +278,8 @@ async def get_prediction_history(username: str = Depends(verify_token)):
     """Get user's prediction history"""
     try:
         predictions = await db.predictions.find(
-            {"username": username}
+            {"username": username},
+            {"_id": 0}  # Exclude the MongoDB _id field
         ).sort("timestamp", -1).limit(50).to_list(50)
         
         return {"predictions": predictions}
