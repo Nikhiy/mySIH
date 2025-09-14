@@ -144,6 +144,9 @@ export default function Index() {
   };
 
   const handleLogin = async () => {
+    console.log('handleLogin called with:', { username: loginState.username, password: loginState.password });
+    console.log('EXPO_BACKEND_URL:', EXPO_BACKEND_URL);
+    
     if (!loginState.username.trim() || !loginState.password.trim()) {
       Alert.alert('Error', 'Please enter both username and password');
       return;
@@ -152,6 +155,7 @@ export default function Index() {
     setLoginState(prev => ({ ...prev, isLoading: true }));
 
     try {
+      console.log('Making login request to:', `${EXPO_BACKEND_URL}/api/auth/login`);
       const response = await fetch(`${EXPO_BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -163,7 +167,9 @@ export default function Index() {
         }),
       });
 
+      console.log('Login response status:', response.status);
       const data = await response.json();
+      console.log('Login response data:', data);
 
       if (response.ok) {
         setAuthToken(data.access_token);
