@@ -20,7 +20,6 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
-import Slider from '@react-native-community/slider';
 
 const { width, height } = Dimensions.get('window');
 
