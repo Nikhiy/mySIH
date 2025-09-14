@@ -931,71 +931,89 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     fontWeight: '500',
   },
-  // Slider Styles
-  sliderContainer: {
-    marginBottom: 24,
+  // Parameter Input Styles
+  parameterContainer: {
+    marginBottom: 20,
     paddingVertical: 8,
   },
-  sliderHeader: {
+  parameterHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 12,
   },
-  sliderLabelContainer: {
+  parameterLabelContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
   },
-  sliderLabel: {
+  parameterLabel: {
     fontSize: 16,
     fontWeight: '600',
     color: '#374151',
     marginLeft: 8,
   },
-  sliderValueContainer: {
+  parameterStatusContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  sliderValue: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginRight: 8,
-  },
-  optimalValue: {
-    color: '#059669',
-  },
-  alertValue: {
-    color: '#dc2626',
   },
   statusIndicator: {
     width: 10,
     height: 10,
     borderRadius: 5,
+    marginRight: 6,
   },
-  sliderTrackContainer: {
-    paddingHorizontal: 4,
+  statusText: {
+    fontSize: 12,
+    fontWeight: '600',
   },
-  slider: {
-    width: '100%',
-    height: 40,
+  optimalStatus: {
+    color: '#059669',
   },
-  sliderLabels: {
+  alertStatus: {
+    color: '#dc2626',
+  },
+  parameterInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f8fafc',
+    borderRadius: 12,
+    borderWidth: 1,
+    paddingHorizontal: 16,
+  },
+  parameterInput: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: '500',
+    paddingVertical: 16,
+    color: '#1e293b',
+  },
+  optimalInput: {
+    borderColor: '#10b981',
+  },
+  alertInput: {
+    borderColor: '#ef4444',
+  },
+  unitText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#6b7280',
+    marginLeft: 8,
+  },
+  parameterRange: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 4,
+    marginTop: 8,
   },
-  sliderMinMax: {
+  rangeText: {
     fontSize: 12,
     color: '#6b7280',
     fontWeight: '500',
   },
-  sliderHint: {
+  optimalText: {
     fontSize: 12,
-    color: '#6b7280',
-    marginTop: 8,
-    textAlign: 'center',
-    fontStyle: 'italic',
+    color: '#059669',
+    fontWeight: '600',
   },
   // Date Input Styles
   dateContainer: {
