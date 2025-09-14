@@ -101,7 +101,7 @@ export default function Index() {
   const [predictionResult, setPredictionResult] = useState<PredictionResult | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const EXPO_BACKEND_URL = Constants.expoConfig?.extra?.EXPO_BACKEND_URL || process.env.EXPO_PUBLIC_BACKEND_URL;
+  const EXPO_BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || Constants.expoConfig?.extra?.EXPO_BACKEND_URL;
 
   useEffect(() => {
     checkAuthToken();
