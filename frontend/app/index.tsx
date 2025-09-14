@@ -351,106 +351,299 @@ export default function Index() {
     </LinearGradient>
   );
 
+  // Dropdown state for categorical fields
+  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
+  const [showSourceTypeDropdown, setShowSourceTypeDropdown] = useState(false);
+
+  const locationOptions = [
+    { label: 'Urban Area', value: 'Urban_Area', icon: 'city' },
+    { label: 'Rural Area', value: 'Rural_Area', icon: 'home' },
+    { label: 'City A', value: 'CityA', icon: 'location-city' },
+    { label: 'City B', value: 'CityB', icon: 'location-city' },
+    { label: 'Industrial Zone', value: 'Industrial_Zone', icon: 'factory' },
+  ];
+
+  const sourceTypeOptions = [
+    { label: 'River', value: 'River', icon: 'water' },
+    { label: 'Lake', value: 'Lake', icon: 'water-outline' },
+    { label: 'Well', value: 'Well', icon: 'home-outline' },
+    { label: 'Groundwater', value: 'Groundwater', icon: 'water-off' },
+    { label: 'Treated Water', value: 'Treated_Water', icon: 'water-check' },
+    { label: 'Untreated Water', value: 'Untreated_Water', icon: 'water-alert' },
+  ];
+
+  // Parameter configurations for sliders and inputs
+  const waterParameters = {
+    pH: { min: 0, max: 14, step: 0.1, unit: '', icon: 'flask', color: '#e74c3c', optimal: [6.5, 8.5] },
+    O2: { min: 0, max: 15, step: 0.1, unit: 'mg/L', icon: 'air', color: '#3498db', optimal: [5, 12] },
+    Temperature: { min: 0, max: 40, step: 0.5, unit: '°C', icon: 'thermometer', color: '#f39c12', optimal: [10, 30] },
+    Turbidity: { min: 0, max: 50, step: 0.5, unit: 'NTU', icon: 'eye-off', color: '#95a5a6', optimal: [0, 10] },
+    NH4: { min: 0, max: 10, step: 0.1, unit: 'mg/L', icon: 'flask-outline', color: '#e67e22', optimal: [0, 2] },
+    NO3: { min: 0, max: 20, step: 0.1, unit: 'mg/L', icon: 'flask', color: '#27ae60', optimal: [0, 10] },
+    NO2: { min: 0, max: 5, step: 0.1, unit: 'mg/L', icon: 'flask-outline', color: '#f1c40f', optimal: [0, 2] },
+    CL: { min: 0, max: 500, step: 1, unit: 'mg/L', icon: 'flask', color: '#9b59b6', optimal: [10, 250] },
+    SO4: { min: 0, max: 200, step: 1, unit: 'mg/L', icon: 'flask-outline', color: '#34495e', optimal: [5, 100] },
+    PO4: { min: 0, max: 10, step: 0.1, unit: 'mg/L', icon: 'flask', color: '#e74c3c', optimal: [0, 5] },
+    BSK5: { min: 0, max: 30, step: 0.5, unit: 'mg/L', icon: 'bug', color: '#8e44ad', optimal: [1, 15] },
+    Suspended: { min: 0, max: 100, step: 1, unit: 'mg/L', icon: 'grain', color: '#d35400', optimal: [0, 50] },
+  };
+
+  const renderDropdown = (
+    options: Array<{label: string, value: string, icon: string}>,
+    currentValue: string,
+    onSelect: (value: string) => void,
+    show: boolean,
+    onToggle: () => void,
+    placeholder: string
+  ) => (
+    <View style={styles.dropdownContainer}>
+      <TouchableOpacity style={styles.dropdownButton} onPress={onToggle}>
+        <View style={styles.dropdownButtonContent}>
+          <Text style={styles.dropdownButtonText}>
+            {currentValue ? options.find(opt => opt.value === currentValue)?.label : placeholder}
+          </Text>
+          <Ionicons 
+            name={show ? "chevron-up" : "chevron-down"} 
+            size={20} 
+            color="#666" 
+          />
+        </View>
+      </TouchableOpacity>
+      
+      <Modal visible={show} transparent animationType="fade">
+        <TouchableOpacity 
+          style={styles.modalOverlay} 
+          onPress={onToggle}
+          activeOpacity={1}
+        >
+          <View style={styles.dropdownModal}>
+            <FlatList
+              data={options}
+              keyExtractor={(item) => item.value}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.dropdownItem}
+                  onPress={() => {
+                    onSelect(item.value);
+                    onToggle();
+                  }}
+                >
+                  <Ionicons name={item.icon as any} size={20} color="#0066cc" />
+                  <Text style={styles.dropdownItemText}>{item.label}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    </View>
+  );
+
+  const renderSliderInput = (
+    key: string,
+    config: typeof waterParameters[keyof typeof waterParameters],
+    label: string
+  ) => {
+    const currentValue = parseFloat(predictionForm[key as keyof PredictionForm] || '0');
+    const isOptimal = currentValue >= config.optimal[0] && currentValue <= config.optimal[1];
+    
+    return (
+      <View key={key} style={styles.sliderContainer}>
+        <View style={styles.sliderHeader}>
+          <View style={styles.sliderLabelContainer}>
+            <Ionicons name={config.icon as any} size={20} color={config.color} />
+            <Text style={styles.sliderLabel}>{label}</Text>
+          </View>
+          <View style={styles.sliderValueContainer}>
+            <Text style={[styles.sliderValue, isOptimal ? styles.optimalValue : styles.alertValue]}>
+              {currentValue.toFixed(key === 'pH' ? 1 : (config.step < 1 ? 1 : 0))} {config.unit}
+            </Text>
+            <View style={[styles.statusIndicator, { backgroundColor: isOptimal ? '#27ae60' : '#e74c3c' }]} />
+          </View>
+        </View>
+        
+        <View style={styles.sliderTrackContainer}>
+          <Slider
+            style={styles.slider}
+            minimumValue={config.min}
+            maximumValue={config.max}
+            step={config.step}
+            value={currentValue}
+            onValueChange={(value) => setPredictionForm(prev => ({ 
+              ...prev, 
+              [key]: value.toFixed(key === 'pH' ? 1 : (config.step < 1 ? 1 : 0))
+            }))}
+            minimumTrackTintColor={config.color}
+            maximumTrackTintColor="#ddd"
+            thumbStyle={{ backgroundColor: config.color, width: 20, height: 20 }}
+          />
+          <View style={styles.sliderLabels}>
+            <Text style={styles.sliderMinMax}>{config.min}</Text>
+            <Text style={styles.sliderMinMax}>{config.max}</Text>
+          </View>
+        </View>
+        
+        <Text style={styles.sliderHint}>
+          Optimal range: {config.optimal[0]} - {config.optimal[1]} {config.unit}
+        </Text>
+      </View>
+    );
+  };
+
   const renderPredictionForm = () => (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={['#f0f9ff', '#e0f2fe', '#b3e5fc']}
+        colors={['#f8fafc', '#e2e8f0', '#cbd5e1']}
         style={styles.gradient}
       >
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardAvoid}
         >
-          <ScrollView contentContainerStyle={styles.scrollContent}>
+          <ScrollView 
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+          >
             <View style={styles.formHeader}>
-              <Text style={styles.formTitle}>Water Quality Assessment</Text>
+              <View>
+                <Text style={styles.formTitle}>🌊 Water Quality Assessment</Text>
+                <Text style={styles.formSubtitle}>Analyze water safety parameters</Text>
+              </View>
               <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+                <Ionicons name="log-out-outline" size={18} color="white" />
                 <Text style={styles.logoutText}>Logout</Text>
               </TouchableOpacity>
             </View>
 
-            <View style={styles.predictionForm}>
-              {/* Categorical Fields */}
-              <Text style={styles.sectionTitle}>Location Information</Text>
+            {/* Location Information Section */}
+            <View style={styles.sectionCard}>
+              <View style={styles.sectionHeader}>
+                <Ionicons name="location" size={24} color="#0066cc" />
+                <Text style={styles.sectionTitle}>Location Information</Text>
+              </View>
               
-              <TextInput
-                style={styles.formInput}
-                placeholder="Location (e.g., CityA, UrbanArea)"
-                value={predictionForm.Location}
-                onChangeText={(text) => setPredictionForm(prev => ({ ...prev, Location: text }))}
-              />
-
-              <TextInput
-                style={styles.formInput}
-                placeholder="Source Type (e.g., River, Lake, Well)"
-                value={predictionForm.Source_Type}
-                onChangeText={(text) => setPredictionForm(prev => ({ ...prev, Source_Type: text }))}
-              />
-
-              {/* Water Quality Parameters */}
-              <Text style={styles.sectionTitle}>Water Quality Parameters</Text>
-              
-              {Object.entries({
-                NH4: 'Ammonia (NH4) - mg/L',
-                BSK5: 'BOD5 - mg/L',
-                Suspended: 'Suspended Solids - mg/L',
-                O2: 'Dissolved Oxygen - mg/L',
-                NO3: 'Nitrate (NO3) - mg/L',
-                NO2: 'Nitrite (NO2) - mg/L',
-                SO4: 'Sulfate (SO4) - mg/L',
-                PO4: 'Phosphate (PO4) - mg/L',
-                CL: 'Chloride - mg/L',
-                pH: 'pH Level',
-                Turbidity: 'Turbidity - NTU',
-                Temperature: 'Temperature - °C',
-              }).map(([key, label]) => (
-                <TextInput
-                  key={key}
-                  style={styles.formInput}
-                  placeholder={label}
-                  value={predictionForm[key as keyof PredictionForm]}
-                  onChangeText={(text) => setPredictionForm(prev => ({ ...prev, [key]: text }))}
-                  keyboardType="numeric"
-                />
-              ))}
-
-              {/* Date Fields */}
-              <Text style={styles.sectionTitle}>Date Information</Text>
-              
-              <View style={styles.dateRow}>
-                <TextInput
-                  style={[styles.formInput, styles.dateInput]}
-                  placeholder="Year"
-                  value={predictionForm.Year}
-                  onChangeText={(text) => setPredictionForm(prev => ({ ...prev, Year: text }))}
-                  keyboardType="numeric"
-                />
-                <TextInput
-                  style={[styles.formInput, styles.dateInput]}
-                  placeholder="Month"
-                  value={predictionForm.Month}
-                  onChangeText={(text) => setPredictionForm(prev => ({ ...prev, Month: text }))}
-                  keyboardType="numeric"
-                />
-                <TextInput
-                  style={[styles.formInput, styles.dateInput]}
-                  placeholder="Day"
-                  value={predictionForm.Day}
-                  onChangeText={(text) => setPredictionForm(prev => ({ ...prev, Day: text }))}
-                  keyboardType="numeric"
-                />
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Sample Location</Text>
+                {renderDropdown(
+                  locationOptions,
+                  predictionForm.Location,
+                  (value) => setPredictionForm(prev => ({ ...prev, Location: value })),
+                  showLocationDropdown,
+                  () => setShowLocationDropdown(!showLocationDropdown),
+                  "Select location type"
+                )}
+                <Text style={styles.inputHint}>Choose the area where water sample was collected</Text>
               </View>
 
-              <TouchableOpacity
-                style={[styles.predictButton, isSubmitting && styles.buttonDisabled]}
-                onPress={handlePrediction}
-                disabled={isSubmitting}
-              >
-                <Text style={styles.buttonText}>
-                  {isSubmitting ? 'Analyzing...' : 'Analyze Water Quality'}
-                </Text>
-              </TouchableOpacity>
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Water Source</Text>
+                {renderDropdown(
+                  sourceTypeOptions,
+                  predictionForm.Source_Type,
+                  (value) => setPredictionForm(prev => ({ ...prev, Source_Type: value })),
+                  showSourceTypeDropdown,
+                  () => setShowSourceTypeDropdown(!showSourceTypeDropdown),
+                  "Select water source type"
+                )}
+                <Text style={styles.inputHint}>Type of water source being tested</Text>
+              </View>
             </View>
+
+            {/* Water Chemistry Section */}
+            <View style={styles.sectionCard}>
+              <View style={styles.sectionHeader}>
+                <FontAwesome5 name="flask" size={22} color="#e74c3c" />
+                <Text style={styles.sectionTitle}>Water Chemistry</Text>
+              </View>
+              
+              {renderSliderInput('pH', waterParameters.pH, 'pH Level')}
+              {renderSliderInput('O2', waterParameters.O2, 'Dissolved Oxygen')}
+              {renderSliderInput('NH4', waterParameters.NH4, 'Ammonia (NH4)')}
+              {renderSliderInput('NO3', waterParameters.NO3, 'Nitrate (NO3)')}
+              {renderSliderInput('NO2', waterParameters.NO2, 'Nitrite (NO2)')}
+              {renderSliderInput('CL', waterParameters.CL, 'Chloride')}
+              {renderSliderInput('SO4', waterParameters.SO4, 'Sulfate (SO4)')}
+              {renderSliderInput('PO4', waterParameters.PO4, 'Phosphate (PO4)')}
+            </View>
+
+            {/* Physical Properties Section */}
+            <View style={styles.sectionCard}>
+              <View style={styles.sectionHeader}>
+                <MaterialIcons name="science" size={24} color="#f39c12" />
+                <Text style={styles.sectionTitle}>Physical Properties</Text>
+              </View>
+              
+              {renderSliderInput('Temperature', waterParameters.Temperature, 'Temperature')}
+              {renderSliderInput('Turbidity', waterParameters.Turbidity, 'Turbidity')}
+              {renderSliderInput('BSK5', waterParameters.BSK5, 'BOD5 (Biological Oxygen Demand)')}
+              {renderSliderInput('Suspended', waterParameters.Suspended, 'Suspended Solids')}
+            </View>
+
+            {/* Date Information Section */}
+            <View style={styles.sectionCard}>
+              <View style={styles.sectionHeader}>
+                <Ionicons name="calendar" size={24} color="#9b59b6" />
+                <Text style={styles.sectionTitle}>Sample Date</Text>
+              </View>
+              
+              <View style={styles.dateContainer}>
+                <View style={styles.dateInputGroup}>
+                  <Text style={styles.inputLabel}>Year</Text>
+                  <TextInput
+                    style={styles.dateInput}
+                    placeholder="2024"
+                    value={predictionForm.Year}
+                    onChangeText={(text) => setPredictionForm(prev => ({ ...prev, Year: text }))}
+                    keyboardType="numeric"
+                    maxLength={4}
+                  />
+                </View>
+                <View style={styles.dateInputGroup}>
+                  <Text style={styles.inputLabel}>Month</Text>
+                  <TextInput
+                    style={styles.dateInput}
+                    placeholder="12"
+                    value={predictionForm.Month}
+                    onChangeText={(text) => setPredictionForm(prev => ({ ...prev, Month: text }))}
+                    keyboardType="numeric"
+                    maxLength={2}
+                  />
+                </View>
+                <View style={styles.dateInputGroup}>
+                  <Text style={styles.inputLabel}>Day</Text>
+                  <TextInput
+                    style={styles.dateInput}
+                    placeholder="15"
+                    value={predictionForm.Day}
+                    onChangeText={(text) => setPredictionForm(prev => ({ ...prev, Day: text }))}
+                    keyboardType="numeric"
+                    maxLength={2}
+                  />
+                </View>
+              </View>
+              <Text style={styles.inputHint}>Date when the water sample was collected</Text>
+            </View>
+
+            {/* Submit Button */}
+            <TouchableOpacity
+              style={[styles.submitButton, isSubmitting && styles.buttonDisabled]}
+              onPress={handlePrediction}
+              disabled={isSubmitting}
+            >
+              <LinearGradient
+                colors={isSubmitting ? ['#bdc3c7', '#95a5a6'] : ['#0066cc', '#004499']}
+                style={styles.submitGradient}
+              >
+                {isSubmitting ? (
+                  <Ionicons name="reload" size={20} color="white" />
+                ) : (
+                  <FontAwesome5 name="microscope" size={18} color="white" />
+                )}
+                <Text style={styles.submitButtonText}>
+                  {isSubmitting ? 'Analyzing Water Sample...' : 'Analyze Water Quality'}
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
           </ScrollView>
         </KeyboardAvoidingView>
       </LinearGradient>
