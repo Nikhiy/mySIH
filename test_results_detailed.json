@@ -1,0 +1,95 @@
+[
+  {
+    "test": "API Root Endpoint",
+    "success": true,
+    "message": "API root accessible",
+    "timestamp": "2025-09-14T15:44:18.489304",
+    "details": {
+      "response": {
+        "message": "Smart Health Surveillance API",
+        "status": "active"
+      }
+    }
+  },
+  {
+    "test": "Authentication - Valid Login",
+    "success": true,
+    "message": "Login successful for user testuser_health",
+    "timestamp": "2025-09-14T15:44:19.041266",
+    "details": {
+      "token_received": true,
+      "message": "Welcome testuser_health! Login successful."
+    }
+  },
+  {
+    "test": "Authentication - Invalid Login",
+    "success": true,
+    "message": "Correctly rejected invalid credentials",
+    "timestamp": "2025-09-14T15:44:19.596245",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "test": "Prediction - Good Water Quality",
+    "success": true,
+    "message": "Prediction successful: HIGH risk",
+    "timestamp": "2025-09-14T15:44:20.180524",
+    "details": {
+      "prediction": 1,
+      "risk_level": "HIGH",
+      "confidence": 0.7556805960386074,
+      "message": "\u26a0\ufe0f High Risk of Water-Borne Outbreak detected in this area. Stay cautious!"
+    }
+  },
+  {
+    "test": "Prediction - Poor Water Quality",
+    "success": true,
+    "message": "Prediction successful: HIGH risk detected",
+    "timestamp": "2025-09-14T15:44:20.734414",
+    "details": {
+      "prediction": 1,
+      "risk_level": "HIGH",
+      "confidence": 0.8426729059257675,
+      "high_risk_detected": true,
+      "message": "\u26a0\ufe0f High Risk of Water-Borne Outbreak detected in this area. Stay cautious!"
+    }
+  },
+  {
+    "test": "Prediction - No Authentication",
+    "success": false,
+    "message": "Expected 401, got 403",
+    "timestamp": "2025-09-14T15:44:21.290901",
+    "details": {
+      "response": "{\"detail\":\"Not authenticated\"}"
+    }
+  },
+  {
+    "test": "Prediction - Missing Parameters",
+    "success": true,
+    "message": "Correctly rejected request with missing parameters",
+    "timestamp": "2025-09-14T15:44:21.901027",
+    "details": {
+      "status_code": 422
+    }
+  },
+  {
+    "test": "Notification Trigger",
+    "success": true,
+    "message": "Notification triggered successfully",
+    "timestamp": "2025-09-14T15:44:22.462511",
+    "details": {
+      "notification_id": "317bd013-8dc1-4cb7-94de-e8e5194ef2c1",
+      "message": "Notification triggered successfully"
+    }
+  },
+  {
+    "test": "Prediction History",
+    "success": false,
+    "message": "HTTP 500: Internal Server Error",
+    "timestamp": "2025-09-14T15:44:23.019080",
+    "details": {
+      "status_code": 500
+    }
+  }
+]
