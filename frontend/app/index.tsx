@@ -438,7 +438,7 @@ export default function Index() {
     </View>
   );
 
-  const renderSliderInput = (
+  const renderParameterInput = (
     key: string,
     config: typeof waterParameters[keyof typeof waterParameters],
     label: string
@@ -447,44 +447,39 @@ export default function Index() {
     const isOptimal = currentValue >= config.optimal[0] && currentValue <= config.optimal[1];
     
     return (
-      <View key={key} style={styles.sliderContainer}>
-        <View style={styles.sliderHeader}>
-          <View style={styles.sliderLabelContainer}>
+      <View key={key} style={styles.parameterContainer}>
+        <View style={styles.parameterHeader}>
+          <View style={styles.parameterLabelContainer}>
             <Ionicons name={config.icon as any} size={20} color={config.color} />
-            <Text style={styles.sliderLabel}>{label}</Text>
+            <Text style={styles.parameterLabel}>{label}</Text>
           </View>
-          <View style={styles.sliderValueContainer}>
-            <Text style={[styles.sliderValue, isOptimal ? styles.optimalValue : styles.alertValue]}>
-              {currentValue.toFixed(key === 'pH' ? 1 : (config.step < 1 ? 1 : 0))} {config.unit}
-            </Text>
+          <View style={styles.parameterStatusContainer}>
             <View style={[styles.statusIndicator, { backgroundColor: isOptimal ? '#27ae60' : '#e74c3c' }]} />
+            <Text style={[styles.statusText, isOptimal ? styles.optimalStatus : styles.alertStatus]}>
+              {isOptimal ? 'Optimal' : 'Alert'}
+            </Text>
           </View>
         </View>
         
-        <View style={styles.sliderTrackContainer}>
-          <Slider
-            style={styles.slider}
-            minimumValue={config.min}
-            maximumValue={config.max}
-            step={config.step}
-            value={currentValue}
-            onValueChange={(value) => setPredictionForm(prev => ({ 
-              ...prev, 
-              [key]: value.toFixed(key === 'pH' ? 1 : (config.step < 1 ? 1 : 0))
-            }))}
-            minimumTrackTintColor={config.color}
-            maximumTrackTintColor="#ddd"
-            thumbStyle={{ backgroundColor: config.color, width: 20, height: 20 }}
+        <View style={styles.parameterInputContainer}>
+          <TextInput
+            style={[styles.parameterInput, isOptimal ? styles.optimalInput : styles.alertInput]}
+            placeholder={`Enter ${label} (${config.min}-${config.max})`}
+            value={predictionForm[key as keyof PredictionForm]}
+            onChangeText={(text) => setPredictionForm(prev => ({ ...prev, [key]: text }))}
+            keyboardType="numeric"
           />
-          <View style={styles.sliderLabels}>
-            <Text style={styles.sliderMinMax}>{config.min}</Text>
-            <Text style={styles.sliderMinMax}>{config.max}</Text>
-          </View>
+          <Text style={styles.unitText}>{config.unit}</Text>
         </View>
         
-        <Text style={styles.sliderHint}>
-          Optimal range: {config.optimal[0]} - {config.optimal[1]} {config.unit}
-        </Text>
+        <View style={styles.parameterRange}>
+          <Text style={styles.rangeText}>
+            Range: {config.min} - {config.max} {config.unit}
+          </Text>
+          <Text style={styles.optimalText}>
+            Optimal: {config.optimal[0]} - {config.optimal[1]} {config.unit}
+          </Text>
+        </View>
       </View>
     );
   };
