@@ -3,7 +3,7 @@
     "test": "API Root Endpoint",
     "success": true,
     "message": "API root accessible",
-    "timestamp": "2025-09-14T15:44:18.489304",
+    "timestamp": "2025-09-14T15:45:14.182509",
     "details": {
       "response": {
         "message": "Smart Health Surveillance API",
@@ -15,7 +15,7 @@
     "test": "Authentication - Valid Login",
     "success": true,
     "message": "Login successful for user testuser_health",
-    "timestamp": "2025-09-14T15:44:19.041266",
+    "timestamp": "2025-09-14T15:45:14.738443",
     "details": {
       "token_received": true,
       "message": "Welcome testuser_health! Login successful."
@@ -25,7 +25,7 @@
     "test": "Authentication - Invalid Login",
     "success": true,
     "message": "Correctly rejected invalid credentials",
-    "timestamp": "2025-09-14T15:44:19.596245",
+    "timestamp": "2025-09-14T15:45:15.291818",
     "details": {
       "status_code": 401
     }
@@ -34,7 +34,7 @@
     "test": "Prediction - Good Water Quality",
     "success": true,
     "message": "Prediction successful: HIGH risk",
-    "timestamp": "2025-09-14T15:44:20.180524",
+    "timestamp": "2025-09-14T15:45:15.852236",
     "details": {
       "prediction": 1,
       "risk_level": "HIGH",
@@ -46,7 +46,7 @@
     "test": "Prediction - Poor Water Quality",
     "success": true,
     "message": "Prediction successful: HIGH risk detected",
-    "timestamp": "2025-09-14T15:44:20.734414",
+    "timestamp": "2025-09-14T15:45:16.407450",
     "details": {
       "prediction": 1,
       "risk_level": "HIGH",
@@ -59,7 +59,7 @@
     "test": "Prediction - No Authentication",
     "success": false,
     "message": "Expected 401, got 403",
-    "timestamp": "2025-09-14T15:44:21.290901",
+    "timestamp": "2025-09-14T15:45:16.962582",
     "details": {
       "response": "{\"detail\":\"Not authenticated\"}"
     }
@@ -68,7 +68,7 @@
     "test": "Prediction - Missing Parameters",
     "success": true,
     "message": "Correctly rejected request with missing parameters",
-    "timestamp": "2025-09-14T15:44:21.901027",
+    "timestamp": "2025-09-14T15:45:17.513598",
     "details": {
       "status_code": 422
     }
@@ -77,19 +77,19 @@
     "test": "Notification Trigger",
     "success": true,
     "message": "Notification triggered successfully",
-    "timestamp": "2025-09-14T15:44:22.462511",
+    "timestamp": "2025-09-14T15:45:18.071589",
     "details": {
-      "notification_id": "317bd013-8dc1-4cb7-94de-e8e5194ef2c1",
+      "notification_id": "6f17c7c2-1fd4-4c4e-b8da-46d3266b8dff",
       "message": "Notification triggered successfully"
     }
   },
   {
     "test": "Prediction History",
-    "success": false,
-    "message": "HTTP 500: Internal Server Error",
-    "timestamp": "2025-09-14T15:44:23.019080",
+    "success": true,
+    "message": "History retrieved successfully (4 records)",
+    "timestamp": "2025-09-14T15:45:18.630764",
     "details": {
-      "status_code": 500
+      "record_count": 4
     }
   }
 ]
