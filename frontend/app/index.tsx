@@ -567,10 +567,10 @@ export default function Index() {
                 <Text style={styles.sectionTitle}>Physical Properties</Text>
               </View>
               
-              {renderSliderInput('Temperature', waterParameters.Temperature, 'Temperature')}
-              {renderSliderInput('Turbidity', waterParameters.Turbidity, 'Turbidity')}
-              {renderSliderInput('BSK5', waterParameters.BSK5, 'BOD5 (Biological Oxygen Demand)')}
-              {renderSliderInput('Suspended', waterParameters.Suspended, 'Suspended Solids')}
+              {renderParameterInput('Temperature', waterParameters.Temperature, 'Temperature')}
+              {renderParameterInput('Turbidity', waterParameters.Turbidity, 'Turbidity')}
+              {renderParameterInput('BSK5', waterParameters.BSK5, 'BOD5 (Biological Oxygen Demand)')}
+              {renderParameterInput('Suspended', waterParameters.Suspended, 'Suspended Solids')}
             </View>
 
             {/* Date Information Section */}
