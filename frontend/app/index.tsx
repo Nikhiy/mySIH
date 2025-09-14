@@ -550,14 +550,14 @@ export default function Index() {
                 <Text style={styles.sectionTitle}>Water Chemistry</Text>
               </View>
               
-              {renderSliderInput('pH', waterParameters.pH, 'pH Level')}
-              {renderSliderInput('O2', waterParameters.O2, 'Dissolved Oxygen')}
-              {renderSliderInput('NH4', waterParameters.NH4, 'Ammonia (NH4)')}
-              {renderSliderInput('NO3', waterParameters.NO3, 'Nitrate (NO3)')}
-              {renderSliderInput('NO2', waterParameters.NO2, 'Nitrite (NO2)')}
-              {renderSliderInput('CL', waterParameters.CL, 'Chloride')}
-              {renderSliderInput('SO4', waterParameters.SO4, 'Sulfate (SO4)')}
-              {renderSliderInput('PO4', waterParameters.PO4, 'Phosphate (PO4)')}
+              {renderParameterInput('pH', waterParameters.pH, 'pH Level')}
+              {renderParameterInput('O2', waterParameters.O2, 'Dissolved Oxygen')}
+              {renderParameterInput('NH4', waterParameters.NH4, 'Ammonia (NH4)')}
+              {renderParameterInput('NO3', waterParameters.NO3, 'Nitrate (NO3)')}
+              {renderParameterInput('NO2', waterParameters.NO2, 'Nitrite (NO2)')}
+              {renderParameterInput('CL', waterParameters.CL, 'Chloride')}
+              {renderParameterInput('SO4', waterParameters.SO4, 'Sulfate (SO4)')}
+              {renderParameterInput('PO4', waterParameters.PO4, 'Phosphate (PO4)')}
             </View>
 
             {/* Physical Properties Section */}
