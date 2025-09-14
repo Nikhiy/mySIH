@@ -734,7 +734,8 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
+    paddingBottom: 40,
   },
   loginContainer: {
     flex: 1,
@@ -806,66 +807,248 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  // Enhanced Form Styles
   formHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 20,
+    alignItems: 'flex-start',
+    paddingVertical: 24,
+    paddingHorizontal: 4,
   },
   formTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    color: '#0066cc',
+    color: '#1a365d',
+    marginBottom: 4,
+  },
+  formSubtitle: {
+    fontSize: 16,
+    color: '#64748b',
+    fontWeight: '500',
   },
   logoutButton: {
-    backgroundColor: '#ff4444',
-    paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ef4444',
+    paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 20,
+    shadowColor: '#ef4444',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   logoutText: {
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: '600',
+    marginLeft: 4,
+    fontSize: 14,
   },
-  predictionForm: {
+  // Section Card Styles
+  sectionCard: {
     backgroundColor: 'white',
-    borderRadius: 15,
+    borderRadius: 16,
     padding: 20,
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 4,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f1f5f9',
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#0066cc',
-    marginTop: 20,
-    marginBottom: 15,
+    color: '#1e293b',
+    marginLeft: 12,
   },
-  formInput: {
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 12,
+  // Input Group Styles
+  inputGroup: {
+    marginBottom: 20,
+  },
+  inputLabel: {
     fontSize: 16,
-    backgroundColor: '#f9f9f9',
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 8,
   },
-  dateRow: {
+  inputHint: {
+    fontSize: 13,
+    color: '#6b7280',
+    marginTop: 6,
+    fontStyle: 'italic',
+  },
+  // Dropdown Styles
+  dropdownContainer: {
+    position: 'relative',
+  },
+  dropdownButton: {
+    backgroundColor: '#f8fafc',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 12,
+    padding: 16,
+  },
+  dropdownButtonContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  dateInput: {
+  dropdownButtonText: {
+    fontSize: 16,
+    color: '#1e293b',
+    fontWeight: '500',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  dropdownModal: {
+    backgroundColor: 'white',
+    borderRadius: 16,
+    maxHeight: 400,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  dropdownItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f1f5f9',
+  },
+  dropdownItemText: {
+    fontSize: 16,
+    color: '#1e293b',
+    marginLeft: 12,
+    fontWeight: '500',
+  },
+  // Slider Styles
+  sliderContainer: {
+    marginBottom: 24,
+    paddingVertical: 8,
+  },
+  sliderHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  sliderLabelContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  sliderLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#374151',
+    marginLeft: 8,
+  },
+  sliderValueContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  sliderValue: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginRight: 8,
+  },
+  optimalValue: {
+    color: '#059669',
+  },
+  alertValue: {
+    color: '#dc2626',
+  },
+  statusIndicator: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+  sliderTrackContainer: {
+    paddingHorizontal: 4,
+  },
+  slider: {
+    width: '100%',
+    height: 40,
+  },
+  sliderLabels: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 4,
+  },
+  sliderMinMax: {
+    fontSize: 12,
+    color: '#6b7280',
+    fontWeight: '500',
+  },
+  sliderHint: {
+    fontSize: 12,
+    color: '#6b7280',
+    marginTop: 8,
+    textAlign: 'center',
+    fontStyle: 'italic',
+  },
+  // Date Input Styles
+  dateContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  dateInputGroup: {
     flex: 1,
     marginHorizontal: 4,
   },
-  predictButton: {
-    backgroundColor: '#0066cc',
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
+  dateInput: {
+    backgroundColor: '#f8fafc',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 12,
+    padding: 16,
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#1e293b',
+    textAlign: 'center',
   },
+  // Submit Button Styles
+  submitButton: {
+    marginTop: 32,
+    marginBottom: 20,
+    borderRadius: 16,
+    shadowColor: '#3b82f6',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  submitGradient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 18,
+    borderRadius: 16,
+  },
+  submitButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 8,
+  },
+  // Result Screen Styles
   resultContainer: {
     flex: 1,
     padding: 20,
